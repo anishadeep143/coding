@@ -1,0 +1,160 @@
+select * from employees
+
+
+select * from departments
+
+ 
+select * from jobs where min_salary>10000
+
+select first_name,hire_date from employees where hire_date between to_date('01-jan-02') and to_date('31-dec-05')
+
+select first_name,hire_date from employees e, departments d
+where  e.department_id=d.department_id and department_name='IT' or department_name='Sales'
+
+select first_name from employees where hire_date> to_date('01-jan-2008')
+
+select * from employees where employee_id=150 or employee_id=160
+
+select * from employees
+select first_name,salary,commission_pct,hire_date from employees where salary<10000
+select job_title,max_salary-min_salary as differnce from jobs where max_salary between 10000 and 20000 
+
+select * from jobs
+Display first name, salary, and round the salary to thousands.
+select first_name,round(salary,-3) from employees 
+
+select * from jobs order by job_title desc
+
+10. Display employees where the first name or last name starts with S.
+select * from employees where first_name like 'S%' or last_name like 'S%'
+
+Display employees who joined in the month of May.
+select e.employee_id,first_name from employees e, job_history j where e.employee_id=j.employee_id and
+start_date like '%MAY%'
+select * from job_history
+
+Display details of the employees where commission percentage is null
+and salary in the range 5000 to 10000 and department is 30.
+
+select * from employees where (commission_pct is null) and (salary between 5000 and 10000) and department_id=30
+
+Display first name and date of first salary of the employees.
+select first_name, TO_CHAR(
+     ADD_MONTHS(start_date,1),
+     'DD-MON-YYYY') "Next month"  from employees e, job_history j where e.employee_id=j.employee_id
+
+14. Display first name and experience of the employees.
+select first_name,round((end_date-start_date)/365,2) from employees e,job_history j where e.employee_id=j.employee_id
+
+15. Display first name of employees who joined in 2001.
+select first_name from employees e, job_history j where start_date like '%01'
+
+16. Display first name and last name after converting the first letter of each
+name to upper case and the rest to lower case.
+
+select initcap(first_name),initcap(last_name) from employees
+
+Display the first word in job title.
+SELECT job_title, SUBSTR(job_title,1, INSTR(job_title, ' ')-1)
+FROM jobs;
+
+Display the length of first name for employees where last name contain
+character ‘b’ after 3rd position.
+SELECT length(first_name) from employees where last_name like '__b%'
+
+19. Display first name in upper case and email address in lower case for
+employees where the first name and email address are same
+irrespective of the case.
+
+select upper(first_name),lower(email) from employees where lower(first_name)=lower(email)
+
+
+select * from employees where to_char(hire_date,'yyyy')=to_char(sysdate,'yyyy')
+
+21. Display the number of days between system date and 1st January 2011.
+select round(sysdate-to_date('01-01-2011','dd-mm-yyyy'),0) from dual
+
+Display how many employees joined in each month of the current year.
+select to_char(hire_date,'mm'),count(*) from employees where to_char(hire_date,'yyyy')=to_char(sysdate,'yyyy') group by to_char(hire_date,'mm')
+
+Display manager ID and number of employees managed by the manager.
+select manager_id,count(employee_id) from employees group by manager_id
+
+24. Display employee ID and the date on which he ended his previous job.
+select employee_id,end_date from job_history
+
+25. Display number of employees joined after 15th of the month.
+select count(*) from employees where to_char(hire_date,'dd')>15 
+
+26. Display the country ID and number of cities we have in the country.
+select country_id,count(city) from locations group by country_id 
+
+27. Display average salary of employees in each department who have
+commission percentage.
+select * from employees
+select avg(salary) from employees where commission_pct is not null group by department_id 
+
+28. Display job ID, number of employees, sum of salary, and difference
+between highest salary and lowest salary of the employees of the job.
+select job_id,count(employee_id),sum(salary),max(salary)-min(salary) from employees group by job_id
+
+29. Display job ID for jobs with average salary more than 10000.
+select job_id from employees group by job_id having avg(salary)>10000
+
+30. Display years in which more than 10 employees joined.
+select to_char(hire_date,'yyyy') from employees group by to_char(hire_date,'yyyy') having count(employee_id)>10
+
+31. Display departments in which more than five employees have
+commission percentage.
+select department_id from employees where  commission_pct is not null group by department_id having count(employee_id)>5 
+
+
+32. Display employee ID for employees who did more than one job in the
+past.
+select employee_id from job_history group by employee_id having count(distinct job_id)>1
+select * from employees
+
+33. Display job ID of jobs that were done by more than 3 employees for
+more than 100 days.
+select job_id from job_history where  end_date-start_date>100 group by job_id having count(employee_id)>3 
+
+34. Display department ID, year, and Number of employees joined.
+select department_id, to_char(hire_date,'yyyy'),count(employee_id) from employees group by department_id, to_char(hire_date,'yyyy') order by department_id 
+
+35. Display departments where any manager is managing more than 5
+employees.
+select distinct department_id from employees group by department_id,manager_id having count(employee_id)>5
+
+36. Change salary of employee 115 to 8000 if the existing salary is less than
+6000.
+update employees 
+set salary=8000 where employee_id=115 and salary<6000
+rollback
+
+select * from employees where employee_id=115
+select * from departments
+
+37. Insert a new employee into employees with all the required details.
+insert into employees values(563,'abc','xyz','dfcffg','968.456.7689','01-jan-20','AC_MGR',7689,0.1,200,20)
+select * from employees where employee_id=563
+38. Delete department 20.
+delete from departments where department_id=20
+
+39. Change job ID of employee 110 to IT_PROG if the employee belongs to
+department 10 and the existing job ID does not start with IT.
+update employees 
+set job_id='IT_PROG' WHERE employee_id=110 and department_id=10 and job_id not like 'IT%'
+
+40. Insert a row into departments table with manager ID 120 and location ID
+in any location ID for city Tokyo.
+
+
+41. Display department name and number of employees in the department.
+select department_name,count(employee_id) from employees group by department_name
+
+
+
+
+
+
+)
