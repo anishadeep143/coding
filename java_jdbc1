@@ -1,0 +1,16 @@
+create table books(bid number primary key,bname varchar(10),price number);
+create table author(aid number primary key,fname varchar(10));
+create table bookauthor(bid number,foreign key(bid) references book1(bid),aid number,foreign key(aid) references author(aid));
+CREATE SEQUENCE sequence_1
+				start with 1
+				increment by 1
+				minvalue 0
+				maxvalue 100
+				cycle;
+        
+        CREATE SEQUENCE sequence_2
+				start with 1
+				increment by 1
+				minvalue 0
+				maxvalue 100
+				cycle;
